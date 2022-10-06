@@ -1,0 +1,17 @@
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ActivityTrackerPC
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ActivityTrackerPC.deps.json
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ActivityTrackerPC.runtimeconfig.json
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ActivityTrackerPC.dll
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ref/ActivityTrackerPC.dll
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/ActivityTrackerPC.pdb
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.csproj.AssemblyReference.cache
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.GeneratedMSBuildEditorConfig.editorconfig
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.AssemblyInfoInputs.cache
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.AssemblyInfo.cs
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.csproj.CoreCompileInputs.cache
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.dll
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ref/ActivityTrackerPC.dll
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.pdb
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.genruntimeconfig.cache
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/bin/Debug/net6.0/Newtonsoft.Json.dll
+/home/alex/Entwicklung/NetCore/ActivityTrackerPC/obj/Debug/net6.0/ActivityTrackerPC.csproj.CopyComplete
