@@ -33,21 +33,30 @@ namespace ActivityTrackerPC.Writer
         public static T RestoreSessionInfo() 
         {
             T restoredBuffer = null;
-            
-            FileStream fs = new FileStream(bufferpath, FileMode.Open);
-            try
+            //Prüfen ob die Datei zum Buffern der Session Daten schon existiert
+            if (File.Exists(bufferpath))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                restoredBuffer = (T) formatter.Deserialize(fs);
+                FileStream fs = new FileStream(bufferpath, FileMode.Open);
+
+                try
+                {
+
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    restoredBuffer = (T)formatter.Deserialize(fs);
+                }
+                catch (SerializationException e)
+                {
+                    Console.WriteLine("Failed to restore. Reason: " + e.Message);
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
             }
-            catch (SerializationException e)
+            else
             {
-                Console.WriteLine("Failed to buffer. Reason: " + e.Message);
-                throw;
-            }
-            finally
-            {
-                fs.Close();
+                File.Create(bufferpath);
             }
 
             return restoredBuffer;

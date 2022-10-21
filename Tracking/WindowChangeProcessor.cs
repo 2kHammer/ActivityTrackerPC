@@ -14,7 +14,10 @@ namespace ActivityTrackerPC.Tracking
         {
             tracker = new WindowTracker(this);
             actualWindow = "";
-            actSession = new SessionModel("Alex", DateTime.Now);
+            //Dies eventuell noch über Observer mitteilen
+            string user = WindowTracker.RunCommandWithBash("whoami", "");
+            user = user.Remove(user.Length - 1);
+            actSession = new SessionModel(user, DateTime.Now);
         }
 
         public void updateEndingTime()

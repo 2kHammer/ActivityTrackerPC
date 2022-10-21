@@ -30,7 +30,7 @@ namespace ActivityTrackerPC.Tracking
             
             StartWindowPolling();
         }
-        private string RunCommandWithBash(string filename ,string command)          
+        public static string RunCommandWithBash(string filename ,string command)          
         {                                                                   
             var psi = new ProcessStartInfo();                               
             psi.FileName = filename;                                        
@@ -77,5 +77,7 @@ namespace ActivityTrackerPC.Tracking
         {
             windowPollTimer.Start();
         }
+
+        
     }
 }

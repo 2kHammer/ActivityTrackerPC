@@ -10,8 +10,16 @@ namespace ActivityTrackerPC.Writer
     public class FileWriter
     {
         private readonly string filepath = "/home/alex/Entwicklung/TrackedTime/";
+        private SessionModelFile se = null;
 
+        
         private string filename { get; set; }
+
+        public SessionModelFile lastSMF
+        {
+            get { return se;}
+            set{}
+        }
 
         public FileWriter()
         {
@@ -53,19 +61,14 @@ namespace ActivityTrackerPC.Writer
 
         private SessionModelFile getLastSessionModelFile()
         {
-            try
-            {
                 string lastSessionString = SessionInfoSaving<string>.RestoreSessionInfo();
+                if (lastSessionString == null) return null;
                 SessionModel sm = JsonSerializer.Deserialize<SessionModel>(lastSessionString);
                 SessionModelFile smFile = new SessionModelFile(sm);
+                se = smFile;
                 return smFile;
-            }
-            catch (Exception ex)
-            {
-                Console.Write($"Keine Daten der letzten Sitzung vorhanden: { ex}");
-                return null;
-            }
         }
+        
 
         private string getfilename()
         {

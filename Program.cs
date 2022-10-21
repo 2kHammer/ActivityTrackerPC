@@ -2,6 +2,7 @@
 using ActivityTrackerPC.Models;
 using ActivityTrackerPC.Tracking;
 using ActivityTrackerPC.Writer;
+using ActivityTrackerPC.Writer.DB;
 
 
 //Variablen
@@ -11,6 +12,13 @@ WindowChangeProcessor wcp = new WindowChangeProcessor();
 //Holen der alten Sitzung aus Zwischenspeicher und und schreiben dieser in Datei
 FileWriter fw = new FileWriter();
 fw.writeLastSession();
+
+//Schreiben in Datenbank
+if (fw.lastSMF != null)
+{
+    SessionRepository sr = new SessionRepository();
+    sr.addSession(fw.lastSMF);
+}
 
 
 //Buffern der aktuellen Sitzung
