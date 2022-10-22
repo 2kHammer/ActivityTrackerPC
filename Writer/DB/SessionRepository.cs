@@ -79,6 +79,7 @@ namespace ActivityTrackerPC.Writer.DB
                 ctxt.SaveChanges();
             }
 
+            
             return durationList;
         }
         
