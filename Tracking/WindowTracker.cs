@@ -4,54 +4,63 @@ using System.Timers;
 namespace ActivityTrackerPC.Tracking
 {
 
-    //Timer wird noch nicht aufgerufen
-    
+   
+    /*
+     * Checks the current window and notify an registered IWindowChanged object if
+     * the window has changed.
+     */
     public class WindowTracker
     {
-        //
+        //frequency of window check in ms
         private readonly int timerSpan = 1 * 1000;
         
-        private string activeWindow;
+        private string? _activeWindow;
+        
+        //is notified when the window changes
         private IWindowChanged _windowObserver;
-        private System.Timers.Timer windowPollTimer;
-
+        
+        
+        //Timer for window checking is started and the window observer gets registered
         public WindowTracker(IWindowChanged windowObserver)
         {
-            //Sobald man System sieht ist PC an
-            activeWindow = "System";
-            //Wird über eine Änderung des Fenster benachrichtigt
+            //Default value
+            _activeWindow = "System";
+            
             _windowObserver = windowObserver;
 
-
-            windowPollTimer = new System.Timers.Timer();
+            //Timer init
+            System.Timers.Timer windowPollTimer = new System.Timers.Timer();
             windowPollTimer.Interval = timerSpan;
             windowPollTimer.Elapsed += CheckWindow;
             windowPollTimer.Enabled = true;
-            
-            StartWindowPolling();
+            windowPollTimer.Start();
         }
-        public static string RunCommandWithBash(string filename ,string command)          
+        
+        //Executes a bash command and returns the result as string
+        public static string? RunCommandWithBash(string programName ,string command)          
         {                                                                   
             var psi = new ProcessStartInfo();                               
-            psi.FileName = filename;                                        
+            psi.FileName = programName;                                        
             psi.Arguments = command;                                        
             psi.RedirectStandardOutput = true;                              
             psi.UseShellExecute = false;                                    
             psi.CreateNoWindow = true;                                      
                                                                     
-            using var process = Process.Start(psi);                         
-                                                                    
-            process.WaitForExit();                                          
-                                                                    
-            var output = process.StandardOutput.ReadToEnd();                
-                                                                    
-            return output;                                                  
+            using (var process = Process.Start(psi)){
+
+                process!.WaitForExit();
+
+                var output = process.StandardOutput.ReadToEnd();
+
+                return output;
+            }
         }
 
-        private string GetActiveWindow()
+        //Returns the name of the active window with a few bash commands
+        private string? GetActiveWindow()
         {
             {
-                string windowFocus = RunCommandWithBash("xdotool", $"getwindowfocus");
+                string? windowFocus = RunCommandWithBash("xdotool", $"getwindowfocus");
                 string windowId = new string(
                     RunCommandWithBash("xdotool", "getwindowpid " + windowFocus).Where
                         (c => !char.IsWhiteSpace(c)).ToArray());
@@ -59,13 +68,18 @@ namespace ActivityTrackerPC.Tracking
             } 
         }
 
-        private void CheckWindow(Object s, ElapsedEventArgs e)
+        /*
+         * Is executed by the timer. Checks if the actual window
+         * is equal to the window from the last check. Notifies
+         * the IWindowChanged object if not.
+         */
+        private void CheckWindow(object? s, ElapsedEventArgs e)
         {
-            string windowNow = GetActiveWindow();
+            string? windowNow = GetActiveWindow();
            
-            if (!windowNow.Equals(activeWindow))
+            if (!windowNow.Equals(_activeWindow))
             {
-                activeWindow = windowNow;
+                _activeWindow = windowNow;
                 _windowObserver.WindowChanged(windowNow);
                
             }
@@ -73,10 +87,6 @@ namespace ActivityTrackerPC.Tracking
             
         }
 
-        private void StartWindowPolling()
-        {
-            windowPollTimer.Start();
-        }
 
         
     }

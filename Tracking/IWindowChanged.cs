@@ -1,6 +1,10 @@
 namespace ActivityTrackerPC.Tracking;
 
+
 public interface IWindowChanged
 {
-    public void WindowChanged(string nameNewWindow);
+    /*
+     * Will be executed when the active window has changed
+     */
+    public void WindowChanged(string? nameNewWindow);
 }

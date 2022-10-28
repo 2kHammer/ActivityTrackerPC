@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
+/*
+ * Models for the Database Tables (used Code First), see UML 
+ */
 namespace ActivityTrackerPC.Writer.DB
 {
 
@@ -22,13 +25,13 @@ namespace ActivityTrackerPC.Writer.DB
     public class Application
     {
         public int ApplicationId { get; set; }
-        public string ApplicationName { get; set; }
+        public string? ApplicationName { get; set; }
 
         public virtual ICollection<ApplicationDuration> ApplicationDurations { get; set; }
 
         public Application(){}
 
-        public Application(string name)
+        public Application(string? name)
         {
             ApplicationName = name;
         }
@@ -38,7 +41,7 @@ namespace ActivityTrackerPC.Writer.DB
     {
         public int ApplicationDurationId { get; set; }
         [Column(TypeName = "bigint")]
-        public TimeSpan? Duration { get; set; }
+        public long? Duration { get; set; }
         
         public int SessionId { get; set; }
         public int ApplicationId { get; set; }
@@ -52,11 +55,11 @@ namespace ActivityTrackerPC.Writer.DB
     public class User
     {
         public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         
         public virtual ICollection<Session> Sessions { get; set; }
 
-        public User(string name)
+        public User(string? name)
         {
             UserName = name;
         }

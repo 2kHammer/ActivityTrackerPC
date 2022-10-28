@@ -1,37 +1,41 @@
 ﻿using System.Text.Json;
-using ActivityTrackerPC.Models;
 using ActivityTrackerPC.Tracking;
 using ActivityTrackerPC.Writer;
 using ActivityTrackerPC.Writer.DB;
 
 
-//Variablen
+//interval the actual session data is buffered
 int sessionBufferTime = 1000;
+//Contains the info about window changes
 WindowChangeProcessor wcp = new WindowChangeProcessor();
 
-//Holen der alten Sitzung aus Zwischenspeicher und und schreiben dieser in Datei
+//Load the data of the old session from the buffer and write it to the json file
 FileWriter fw = new FileWriter();
-fw.writeLastSession();
+fw.WriteLastSession();
 
 //Schreiben in Datenbank
-if (fw.lastSMF != null)
+if (fw.LastSmf != null)
 {
     SessionRepository sr = new SessionRepository();
-    sr.addSession(fw.lastSMF);
+    sr.addSession(fw.LastSmf);
 }
 
 
-//Buffern der aktuellen Sitzung
+/*
+ * Update the ending time and buffer the data of the current session in an interval of "sessionBufferTime" ms
+ * (when the pc is turned off the session data (from last buffer) is saved, and can be processed (json, database)
+ *  the next time the program is started)
+*/
 System.Timers.Timer saveDataLastSession = new System.Timers.Timer(sessionBufferTime);
-saveDataLastSession.Elapsed += (sender, eventArgs) =>
+saveDataLastSession.Elapsed += (_, _) =>
 {
-    wcp.updateEndingTime();
-    SessionInfoSaving<string>.BufferSessionInfo(JsonSerializer.Serialize(wcp.actSession));
+    wcp.UpdateEndingTime();
+    SessionInfoBuffer<string>.BufferSessionInfo(JsonSerializer.Serialize(wcp.ActSession));
    
 };
 saveDataLastSession.Start();
 
-//Bis PC abgeschaltet wird
+//endless loop
 while (true)
 {
     

@@ -1,31 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 
 namespace ActivityTrackerPC.Writer.DB
 {
     public class ActivityTrackerContext : DbContext
     {
-        //Database Nahme muss man noch ändern
-        private const string connectionString = "Server=localhost;User=alex;Password=dbtest;Database=PCActivity";
+        
+        private const string ConnectionString = "Server=localhost;User=alex;Password=dbtest;Database=PCActivity";
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            optionsBuilder.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString));
         } 
         
-        public DbSet<Session> sessions { get; set; }
-        public DbSet<Application> application { get; set; }
-        public DbSet<ApplicationDuration>  applicationDurations { get; set; }
-        public DbSet<User> users { get; set; }
+        //Gateways to the tables
+        public DbSet<Session> sessions { get; set; } = null!;
+        public DbSet<Application> application { get; set; } = null!;
+        public DbSet<ApplicationDuration>  applicationDurations { get; set; } = null!;
+        public DbSet<User> users { get; set; } = null!;
 
-        
 
-      
+        //For the database migration
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //Session
-            //wird immer von der n Seite der Beziehung aus beschrieben
             builder.Entity<Session>()
                 .ToTable("Session")
                 .HasKey(p => p.SessionId);

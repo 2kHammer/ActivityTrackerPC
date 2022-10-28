@@ -1,18 +1,22 @@
 using System.Text.Json.Serialization;
 
 namespace ActivityTrackerPC.Models
+
+    /*
+     * Used to store the session data in a file
+     */
 {
     public class SessionModelFile
     {
         
         [JsonInclude]
-        public List<ApplicationModelFile> ApplicationsFile;
-        public string User { get; set; }
+        public List<ApplicationModelFile>? ApplicationsFile;
+        public string? User { get; set; }
         public DateTime StartingTime { get; set; }
         public DateTime EndingTime { get; set; }
 
         [JsonIgnore] 
-        private static Dictionary<string, string> newWindowNames = new Dictionary<string, string>()
+        private static Dictionary<string, string?> newWindowNames = new Dictionary<string, string?>()
         {
             { "", "Else" },
             { "java", "Rider" }
@@ -25,9 +29,9 @@ namespace ActivityTrackerPC.Models
             
         }
 
-        public SessionModelFile(SessionModel model)  
+        public SessionModelFile(SessionModel? model)  
         {
-            User = model.User;
+            User = model!.User;
             StartingTime = model.StartingTime;
             EndingTime = model.EndingTime;
             ApplicationsFile = convertApplicationsModelForFile(model.Applications);
@@ -40,25 +44,25 @@ namespace ActivityTrackerPC.Models
             foreach(ApplicationModel app in applist)
             {
                 TimeSpan duration = app.EndingTime - app.StartingTime;
-                ApplicationModelFile ActapplistFile = applistFiles.Where(s => s.ApplicationName == app.ApplicationName).FirstOrDefault((ApplicationModelFile)null);
-                if (ActapplistFile == null)
+                ApplicationModelFile actapplistFile = applistFiles.Where(s => s.ApplicationName == app.ApplicationName).FirstOrDefault((ApplicationModelFile)null!);
+                if (actapplistFile == null)
                 {
                     applistFiles.Add(new ApplicationModelFile(app.ApplicationName, duration));
                     
                 }
                 else
                 {
-                    ActapplistFile.Duration += duration;
+                    actapplistFile.Duration += duration;
                 }
             }
 
             applistFiles.ForEach(a =>
             {
-                if (a.ApplicationName.Length != 0)
+                if (a.ApplicationName!.Length != 0)
                     a.ApplicationName = a.ApplicationName.Remove(a.ApplicationName.Length - 1);
 
                 //Umbenennen mancher Werte durch das Dictionary
-                foreach (KeyValuePair<string, string> kvp in newWindowNames)
+                foreach (KeyValuePair<string, string?> kvp in newWindowNames)
                 {
                     if (a.ApplicationName == kvp.Key) a.ApplicationName = kvp.Value;
                 }

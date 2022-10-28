@@ -6,34 +6,35 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ActivityTrackerPC.Writer
 {
-
+    /*
+     * Convert the session data to the right format and appends to appropriate file (depends on date)
+     */
     public class FileWriter
     {
+        //path were the file are stored
         private readonly string filepath = "/home/alex/Entwicklung/TrackedTime/";
-        private SessionModelFile se = null;
+        private string Filename { get; set; }
 
-        
-        private string filename { get; set; }
-
-        public SessionModelFile lastSMF
-        {
-            get { return se;}
-            set{}
-        }
+        //Session data with the format for the file
+        private SessionModelFile? _se;
+        public SessionModelFile? LastSmf => _se;
 
         public FileWriter()
         {
-            filename = getfilename();
+            Filename = getfilename();
         }
 
-        public void writeLastSession()
+        /*
+         * Appends the data from the last session to the actual file (or creates a new one)
+         */
+        public void WriteLastSession()
         {
             
-            //Holen der bereits geschriebenen Session
-            List<SessionModelFile> sessionList = new List<SessionModelFile>();
-            string filelocation = filepath + filename;
             
-            //Datei einlesen und nach Json umwandeln
+            List<SessionModelFile>? sessionList = new List<SessionModelFile>();
+            string filelocation = filepath + Filename;
+            
+            //Reading in the json file
             if (File.Exists(filelocation))
             {
                 using (StreamReader reader = File.OpenText(filelocation))
@@ -44,13 +45,13 @@ namespace ActivityTrackerPC.Writer
            
             }
 
-            //Holen der letzten Session (ist noch nicht geschrieben)
-            SessionModelFile smf = getLastSessionModelFile();
+            //Restore and convert the data from the last session
+            SessionModelFile? smf = GetLastSessionModelFile();
             
-            //Schreiben aller Sessions
+            //Append the data from the last session and write it to the file
             if (smf != null)
             {
-                sessionList.Add(smf);
+                sessionList?.Add(smf);
 
                 string newSession = JsonConvert.SerializeObject(sessionList, Formatting.Indented);
                 File.WriteAllText(filelocation, newSession);
@@ -58,18 +59,22 @@ namespace ActivityTrackerPC.Writer
 
 
         }
-
-        private SessionModelFile getLastSessionModelFile()
+        
+        /*
+         * Restores the data of the last session from the buffer and converts it to the correct file format 
+         */
+        private SessionModelFile? GetLastSessionModelFile()
         {
-                string lastSessionString = SessionInfoSaving<string>.RestoreSessionInfo();
+                string? lastSessionString = SessionInfoBuffer<string>.RestoreSessionInfo();
                 if (lastSessionString == null) return null;
-                SessionModel sm = JsonSerializer.Deserialize<SessionModel>(lastSessionString);
+                SessionModel? sm = JsonSerializer.Deserialize<SessionModel>(lastSessionString);
                 SessionModelFile smFile = new SessionModelFile(sm);
-                se = smFile;
+                _se = smFile;
                 return smFile;
         }
         
 
+        //Generates a file: Activity_Year_Week.json
         private string getfilename()
         {
             Calendar cal = CultureInfo.CurrentCulture.Calendar;

@@ -1,13 +1,18 @@
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using ActivityTrackerPC.Models;
 
 namespace ActivityTrackerPC.Writer
 {
-    public class SessionInfoSaving <T> where T: class
+    /*
+     * Save and restore data to a binary bufferfile
+     */
+    public class SessionInfoBuffer <T> where T: class
     {
+        //Filepath of the binary buffer file
         private static readonly string bufferpath = "SessionDataBuffer.dat";
         
+        
+        //Save the data
         public static void BufferSessionInfo(T data) 
         {
             FileStream fs = new FileStream(bufferpath, FileMode.OpenOrCreate);
@@ -30,9 +35,10 @@ namespace ActivityTrackerPC.Writer
             
         }
 
-        public static T RestoreSessionInfo() 
+        //Restore the data
+        public static T? RestoreSessionInfo() 
         {
-            T restoredBuffer = null;
+            T? restoredBuffer = null;
             //Prüfen ob die Datei zum Buffern der Session Daten schon existiert
             if (File.Exists(bufferpath))
             {
