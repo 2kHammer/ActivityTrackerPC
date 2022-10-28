@@ -9,7 +9,7 @@
 > + Used Applications with Durations
 >The tracked data is written to a weekly JSON File
 >(year_calendarweek.json) and saved in a MariaDB (or MySQL) 
->database.
+>database. The program should run as a background process on your PC.
 
 ##Dependencies
 > The program is written in C# on .Net 6.0.

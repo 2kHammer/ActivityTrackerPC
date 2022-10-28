@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Timers;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace ActivityTrackerPC.Tracking
 {
@@ -59,13 +60,12 @@ namespace ActivityTrackerPC.Tracking
         //Returns the name of the active window with a few bash commands
         private string? GetActiveWindow()
         {
-            {
                 string? windowFocus = RunCommandWithBash("xdotool", $"getwindowfocus");
                 string windowId = new string(
                     RunCommandWithBash("xdotool", "getwindowpid " + windowFocus).Where
                         (c => !char.IsWhiteSpace(c)).ToArray());
                 return RunCommandWithBash("cat", "/proc/" + windowId + "/comm");
-            } 
+
         }
 
         /*
@@ -76,7 +76,7 @@ namespace ActivityTrackerPC.Tracking
         private void CheckWindow(object? s, ElapsedEventArgs e)
         {
             string? windowNow = GetActiveWindow();
-           
+
             if (!windowNow.Equals(_activeWindow))
             {
                 _activeWindow = windowNow;
