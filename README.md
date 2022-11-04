@@ -29,4 +29,4 @@
 
 
 ## Entity relationship diagram
-![ActivityTrackerEntityRelationship](https://user-images.githubusercontent.com/115177899/199925389-3610b869-3994-43d5-b2d1-581d4c4df0ce.jpeg)
+![ActivityTrackerEntityRelationship](https://user-images.githubusercontent.com/115177899/199925389-3610b869-3994-43d5-b2d1-581d4c4df0ce.jpeg =580x384)
