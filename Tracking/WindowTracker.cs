@@ -66,8 +66,10 @@ namespace ActivityTrackerPC.Tracking
                         (c => !char.IsWhiteSpace(c)).ToArray());
                 return RunCommandWithBash("cat", "/proc/" + windowId + "/comm");
 
+                
         }
 
+        
         /*
          * Is executed by the timer. Checks if the actual window
          * is equal to the window from the last check. Notifies
